@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nebula-web
+  labels:
+    app: nebula-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nebula-web
+  template:
+    metadata:
+      labels:
+        app: nebula-web
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nebula-web-service
+spec:
+  selector:
+    app: nebula-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
